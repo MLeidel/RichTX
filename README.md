@@ -3,7 +3,7 @@
 
 Although __document.execCommand__ was never fully developed, it is still
 implemented in most web browsers. When used with __contentEditable__ and __textarea__
-you can embed a useful but limited document editor into web pages.
+you can embed a more robust document editor into web pages.
 
 RichTX is a Javascript library, __richtx.js__, that can be used, like say,
 a _fancy_ textarea that you might use when more advanced text formatting 
@@ -67,7 +67,26 @@ Example usage:
 Rtx1.displayAtTarget();
 
 ```
-As shown above, this method displays the instantiated RichTX object on in the page.
+As shown above, this method displays the instantiated RichTX object onto the page.
+Also two object ID become available for the developer:
+
+- RichTX.CEobj
+- RichTX.TAobj
+
+Use these whenever the object ID is needed for the contentEditable or textarea in the RichTX object.
+For example to set up a Ctrl-S (Save) for a specific RichTX:
+
+```javascript
+  Rtx2.CEobj.addEventListener('keydown', function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+        event.preventDefault();
+        txt = Rtx2.getText();
+        // code to save txt ...
+    }
+  });
+  
+```
+
 
 ---
 
@@ -90,9 +109,13 @@ RichTX_obj.setText(text);
 Example usage:
 
 ```javascript
-// Perhaps you obtain text from a server file or database
-
-Rtx1.setText(text);
+  function rtx1Load() {
+    // normally text fetched from a server file
+    text = `
+This is text that would be fetched from
+an async call to read a server file.`;
+    Rtx1.setText(text); // then put it into the RichTX object
+  }
 
 ```
 ---
@@ -133,8 +156,8 @@ Example:
 
 ```
 Note that the RichRTX instance object is not required because the _document.execCommand_ scopes
-the entire document. __The command is applied at the current cursor position in a contentEditable area__
-which is a part of each RichRTX instance.
+the entire document. __The command is applied at the text insertion point of the contentEditable area in focus__
+which is part of each RichRTX instance.
 
 
 ---
@@ -196,7 +219,12 @@ Inserts a `<hr>` element at the insertion point, or replaces the selection with 
 Inserts an HTML string at the insertion point (deletes selection). Requires a valid HTML string as a value argument.
 
 ### insertImage
-Inserts an image at the insertion point (deletes selection). Requires a URL string for the image's src as a value argument. The requirements for this string are the same as createLink.
+Use insertHTML for this. The code could look something like this:
+
+```javascript
+  let val = prompt("Enter URL of Image");
+  if (url) RTXexec("insertHTML", `<img src='${url}' width=""  height=""  />`);
+```
 
 ### insertOrderedList
 Creates a numbered ordered list for the selection or at the insertion point.

@@ -304,14 +304,14 @@ Rtx1.displayAtTarget();
 ```css
     #CE1 {
     	padding: 5px;
-    	width: 95%;
-    	height: 250px;
+    	width: 95%; /* same as #TA1 */
+    	height: 250px; /* same as #TA1 */
     	border: 1px solid navy;
     	overflow: auto;
     }
     #TA1 {
-    	height: 250px; /*Note: must be same as #CE*/
-    	width: 95%;  /*Note: must be same as #CE*/
+    	height: 250px; /* same as #CE1 */
+    	width: 95%;   /* same as #CE1 */
     	background: #111;
     	color: lightgreen;
     	font: normal 10pt monospace;

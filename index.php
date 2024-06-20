@@ -33,7 +33,7 @@
 </head>
 <body>
 <h1 style="margin:auto;">RichTX DEMO</h1>
-
+<br>
 <div id="RTX1"></div><br><center>
 <input type="button" onclick="Rtx1.switchView()" value="Switch">
 <input type="button" onclick="RTXexec('bold')" value="Bold">
@@ -41,12 +41,14 @@
 <input type="button" onclick="RTXexec('underline')" value="Underline">
 <input type="button" onclick="RTXexec('fontSize', askValue('Enter Font Size 1-7'))" value="Font Size">
 <input type="button" onclick="RTXexec('fontName', askValue('Enter Font Name'))" value="Font Name">
+<br><br>
 <input type="button" onclick="RTXexec('foreColor', askValue('Enter Text Color'))" value="Text Color">
 <input type="button" onclick="RTXexec('insertHorizontalRule')" value="Line">
-<br><br>
+<input type="button" onclick="RTXexec('removeFormat')" value="RemoveFMT">
 <input type="button" onclick="RTXexec('hiliteColor', askValue('Enter color for highlighting'))" value="Highlight">
 <input type="button" onclick="RTXexec('createLink', askValue('Enter URL for Link'))" value="Link">
 <input type="button" onclick="insertImage()" value="Image">
+<br><br>
 <input type="button" onclick="RTXexec('insertUnorderedList')" value="List">
 <input type="button" onclick="RTXexec('indent')" value="Indent">
 <input type="button" onclick="RTXexec('outdent')" value="Outdent">

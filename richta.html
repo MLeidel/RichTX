@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset='UTF-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<script type="text/javascript" src="../js/myJS-1.2.min.js"></script>
+	<script type="text/javascript" src="richtx_min.js"></script>  <!-- requires myJS.js -->
+	<title>Test RichTA</title>
+
+	<style>
+	  body {
+	    margin: 50px;
+	  }
+  /* Each RichTX needs CSS for both the
+    contextEditable DIV and the textarea.
+    Here are two RichTX objects with the
+    same CSS for each.
+  */
+
+    #CE1, #CE2 {
+    	padding: 5px;
+    	width: 95%;
+    	height: 250px;
+    	border: 1px solid navy;
+    	overflow: auto;
+    }
+    #TA1, #TA2 {
+    	height: 250px; /*Note: must be same as #CE*/
+    	width: 95%;  /*Note: must be same as #CE*/
+    	background: #111;
+    	color: lightgreen;
+    	font: normal 10pt monospace;
+    }
+  </style>
+
+</head>
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+<body>
+<div id="RTX1"></div><br>
+<input type="button" onclick="Rtx1.switchView();" value="Switch" style="border: none;cursor:pointer; "/>
+<input type="button" onclick="RTXexec('formatBlock','<h1>');" value="Header 1" />
+<input type="button" onclick="RTXexec('justifyCenter');" value="Center" />
+<input type="button" onclick="RTXexec('insertUnorderedList');" value="List" />
+<input type="button" onclick="rtx1Load();" value="Load" />
+<input type="button" onclick="rtx1Save();" value="Save" />
+<br><br>
+<div id="RTX2"></div><br>
+<input type="button" onclick="Rtx2.switchView();" value="Switch" style="border: none;cursor:pointer;" />
+<input type="button" onclick="RTXexec('insertText', 'Helloooo');" value="Insert txt" />
+<input type="button" onclick="RTXexec('indent');" value="Indent" />
+<input type="button" onclick="RTXexec('outdent');" value="Outdent" />
+<input type="button" onclick="rtx2Picture();" value="Picture" />
+
+<script>
+  // Declare 2 RichTX areas
+  const Rtx1 = new RichTX("RTX1", "CE1", "TA1"); // 1st RichTX area
+  const Rtx2 = new RichTX("RTX2", "CE2", "TA2"); // 2nd RichTX area
+  /* Each RichTX object consists of DIV which will contain
+      an overlapping contextEditable DIV and a textarea.
+      Values to initialize each RichTX object:
+      1. ID of the DIV to use for the RichTX area
+      2. ID of its contentEditable area
+      3. ID of its textarea  */
+
+  /*  These are required to activate the RichTX objects at
+      the DIVs that were set up for them. */
+  Rtx1.displayAtTarget();
+  Rtx2.displayAtTarget();
+
+/*  assisting functions can use
+    RichTX getText, setText, and switchView
+    These methods will pertain to a specific instance of RichTX
+    in this case Rtx1 and Rtx2.
+*/
+  function rtx1Load() {
+    // normally text fetched from a server file
+    text = `
+This is text that would be fetched from
+an async call to read a server file.`;
+    Rtx1.setText(text); // then put it into the RichTX object
+  }
+
+  function rtx1Save() {
+    // text to be written back to the server
+    // NOTE: text will encoded URI components
+    alert(Rtx1.getText());
+  }
+
+  function rtx2Picture() {
+    /* to insert a graphic use the insertHTML command ...
+       NOTE: the graphic must have an Internet URL */
+    url = prompt("Enter path to picture file");
+    if (!url) return;
+    RTXexec("insertHTML", `<img src='${url}' width=""  height=""  />`);
+  }
+  // Sample EventListeners
+
+  // keyboard event listener for Saving Second RichTX object
+  Rtx2.CEobj.addEventListener('keydown', function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+        event.preventDefault();
+        alert(Rtx2.getText());
+    }
+  });
+
+  /* the HTML features are executed with RTXexec function
+    The format is applied to the contentEditable with focus
+  */
+  document.addEventListener('keydown', function(event) {
+    if (event.altKey && event.key === 'r') {
+        event.preventDefault();
+        RTXexec("insertHorizontalRule");
+    }
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.altKey && event.ctrlKey && event.key === 'f') {
+        event.preventDefault();
+        RTXexec("fontSize", 2);  // fontSize can be 1-7
+    }
+  });
+
+  document.addEventListener('keydown', function(event) {
+    if (event.altKey && event.ctrlKey && event.key === 'g') {
+        event.preventDefault();
+        RTXexec("fontName", "Verdana");  // fontSize can be 1-7
+    }
+  });
+
+</script>
+</body>
+</html>

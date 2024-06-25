@@ -33,6 +33,7 @@
 </head>
 <body>
 <h1 style="margin:auto;">RichTX DEMO</h1>
+<span id="SAV">Saved</span>
 <br>
 <div id="RTX1"></div><br><center>
 <input type="button" onclick="Rtx1.switchView()" value="Switch">
@@ -62,6 +63,7 @@
 
 <script>
 /* create and display the RichTX area */
+let nSave = 1;  // 1=save, 2=not saved
 
 const Rtx1 = new RichTX("RTX1", "CE1", "TA1");
 Rtx1.displayAtTarget();
@@ -95,7 +97,8 @@ function webresponse(n, text) {
 function saveDocument() {
   text = Rtx1.getText();
   JS.websend("writehand.php", `txt=${text}`);
-  alert("Document Saved");
+  JS.htm("#SAV", "Saved");
+  nSave = 1;
 }
 
   /* keyboard event listener for Saving Second RichTX object
@@ -106,6 +109,19 @@ Rtx1.CEobj.addEventListener('keydown', function(event) {
       event.preventDefault();
       saveDocument();
   }
+});
+
+Rtx1.CEobj.addEventListener('keydown', function(event) {
+  // set 'Not Saved' on keydowns
+  if (event.ctrlKey) return; // Dosen't apply for Ctrl key
+  if (nSave === 1) {
+    nSave = 2;
+    JS.htm("#SAV", "Not Saved");
+  }
+});
+
+Rtx1.CEobj.addEventListener('focus', function(event) {
+  JS.htm("#SAV", "Not Saved");  // assume user is going to modify the document
 });
 
 JS.webget('inx.dat', 1);  // open the saved document on page load

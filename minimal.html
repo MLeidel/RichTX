@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script type="text/javascript" src="../js/myJS-1.2.min.js"></script>
+    <script type="text/javascript" src="richtx_min.js"></script>  <!-- requires myJS.js -->
+    <title>Test RichTA</title>
+
+    <style>
+      body {
+        margin: 50px;
+      }
+    #CE1 {
+        padding: 5px;
+        width: 95%;
+        height: 250px;
+        border: 1px solid navy;
+        overflow: auto;
+    }
+    #TA1 {
+        height: 250px; /*Note: must be same as #CE*/
+        width: 95%;  /*Note: must be same as #CE*/
+        background: #111;
+        color: lightgreen;
+        font: normal 10pt monospace;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="RTX1"></div><br>
+
+<script>
+  // Declare 2 RichTX areas
+  const Rtx1 = new RichTX("RTX1", "CE1", "TA1"); // 1st RichTX area
+  Rtx1.displayAtTarget();
+
+  document.addEventListener('keydown', function(event) {
+    if (event.altKey && event.key === 'z') {
+        event.preventDefault();
+        Rtx1.switchView(); // impliment the switchView method
+    }
+  });
+
+  /*  without using the document.execCommand function
+      the only formatting available is BOLD, ITALIC, and UNDERLINE.
+      Ctrl-b, Ctrl-i, Ctrl-u.
+      If you know HTML other formats can be written when
+      switched to the HTML window.
+  */
+
+</script>
+</body>
+</html>
